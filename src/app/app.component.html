@@ -1,15 +1,54 @@
-<div class="container">
+<div class="search">
+  <form #form="ngForm" (submit)="onSubmit()">
+    <input type="text" placeholder="Tìm kiếm..." name="city" [(ngModel)]="cityName">
+  </form>
+</div>
+
+<div class="container" *ngIf="weatherData">
   <div class="upper-data">
-    <img src="../assets/img/hot.jpg" alt="Hot Splash Art" *ngIf="14 > 15">
-    <img src="../assets/img/cold.jpg" alt="Cold Splash Art" *ngIf="14 <= 15">
+    <img src="../assets/img/hot.jpg" alt="Hot Splash Art" *ngIf="(weatherData.main.temp - 273.15) >= 20">
+    <img src="../assets/img/cold.jpg" alt="Cold Splash Art" *ngIf="(weatherData.main.temp - 273.15) < 20">
 
     <div class="weather-data">
-      <div class="location">Ha noi</div>
-      <div class="temperature">{{ 14.40 | number: '1.0-0'}}°C</div>
+      <div class="location">{{ weatherData.name }}</div>
+      <div class="temperature">{{ (weatherData.main.temp - 273.15).toFixed(1) }}°C</div>
     </div>
   </div>
   <div class="lower-data">
+    <div class="more-info-label">Thông tin chi tiết</div>
+    <div class="more-info-container">
+      <div class="info-block">
+        <div class="info-block-label">
+          <img src="../assets/img/min.png" alt="Minimum Temperature">
+          <span>min</span>
+        </div>
+        <div class="info-block-value">{{ (weatherData.main.temp_min - 273.15).toFixed(1) }}°C</div>
+      </div>
 
+      <div class="info-block">
+        <div class="info-block-label">
+          <img src="../assets/img/max.png" alt="Maximum Temperature">
+          <span>max</span>
+        </div>
+        <div class="info-block-value">{{ (weatherData.main.temp_max - 273.15).toFixed(1) }}°C</div>
+      </div>
+
+      <div class="info-block">
+        <div class="info-block-label">
+          <img src="../assets/img/humidity.png" alt="Humidity" style="width: 30px; height: 32px;">
+          <span>humidity</span>
+        </div>
+        <div class="info-block-value">{{ weatherData.main.humidity }}%</div>
+      </div>
+
+      <div class="info-block">
+        <div class="info-block-label">
+          <img src="../assets/img/windSpeed2.png" alt="Wind Speed" style="width: 42px; height: 25px;">
+          <span>wind</span>
+        </div>
+        <div class="info-block-value">{{ (weatherData.wind.speed).toFixed(1) }}km/h</div>
+      </div>
+    </div>
   </div>
 </div>
 <router-outlet />
